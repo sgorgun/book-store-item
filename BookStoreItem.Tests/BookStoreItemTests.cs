@@ -515,7 +515,7 @@ namespace BookStoreItem.Tests
 
         [TestCase("GetIsniUri", false, true, false, typeof(Uri))]
         [TestCase("GetIsbnSearchUri", false, true, false, typeof(Uri))]
-        [TestCase("ToString", false, true, true, typeof(string))]
+        [TestCase("ToString", false, true, false, typeof(string))]
         [TestCase("ValidateIsni", true, false, false, typeof(bool))]
         [TestCase("ValidateIsbnFormat", true, false, false, typeof(bool))]
         [TestCase("ValidateIsbnChecksum", true, false, false, typeof(bool))]
