@@ -1,6 +1,8 @@
 using System.Globalization;
 
 [assembly: CLSCompliant(true)]
+#pragma warning disable IDE0079
+#pragma warning disable S107
 
 namespace BookStoreItem
 {
@@ -200,9 +202,9 @@ namespace BookStoreItem
                 return false;
             }
 
-            foreach (var t in isni)
+            foreach (var term in isni)
             {
-                if (!char.IsLetterOrDigit(t) && t != 'X')
+                if (!char.IsLetterOrDigit(term) && term != 'X')
                 {
                     return false;
                 }
@@ -218,9 +220,9 @@ namespace BookStoreItem
                 return false;
             }
 
-            for (int i = 0; i < isbn.Length; i++)
+            foreach (var term in isbn)
             {
-                if (!char.IsDigit(isbn[i]) && isbn[i] != 'X')
+                if (!char.IsDigit(term) && term != 'X')
                 {
                     return false;
                 }
@@ -237,7 +239,7 @@ namespace BookStoreItem
             {
                 if (char.IsDigit(term))
                 {
-                    checkSum += (term - '0') * j;
+                    checkSum += term * j;
                     j--;
                 }
                 else
@@ -246,19 +248,14 @@ namespace BookStoreItem
                 }
             }
 
-            if (checkSum % 11 == 0)
-            {
-                return true;
-            }
-
-            return false;
+            return checkSum % 11 == 0;
         }
 
         private static void ThrowExceptionIfCurrencyIsNotValid(string? currency, string? parameterName)
         {
             if (string.IsNullOrWhiteSpace(currency))
             {
-                throw new ArgumentException($"A {parameterName} currency can't be empty or null.", nameof(currency));
+                throw new ArgumentException($"A {parameterName}'s currency can't be empty or null.", nameof(currency));
             }
 
             if (currency.Length != 3)
