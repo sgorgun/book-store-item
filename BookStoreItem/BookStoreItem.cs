@@ -91,45 +91,38 @@ namespace BookStoreItem
         /// <summary>
         /// Gets a book author's name.
         /// </summary>
-        public string AuthorName { get => this.authorName; }
+        public string AuthorName => this.authorName;
 
         /// <summary>
         /// Gets an International Standard Name Identifier (ISNI) that uniquely identifies a book author.
         /// </summary>
-        public string? Isni { get => this.isni; }
-
-        /// <summary>
+        public string? Isni => this.isni;      /// <summary>
         /// Gets a value indicating whether an author has an International Standard Name Identifier (ISNI).
         /// </summary>
-        public bool HasIsni { get => this.hasIsni; }
-
-        /// <summary>
+        public bool HasIsni => this.hasIsni;    /// <summary>
         /// Gets a book title.
         /// </summary>
-        public string Title { get; private set; }
+        public string Title{get; private set;}
 
         /// <summary>
         /// Gets a book publisher.
         /// </summary>
-        public string Publisher { get; private set; }
+        public string Publisher{get; private set;}
 
         /// <summary>
         /// Gets a book International Standard Book Number (ISBN).
         /// </summary>
-        public string Isbn { get; private set; }
+        public string Isbn{get; private set;}
 
         /// <summary>
         /// Gets or sets a book publishing date.
         /// </summary>
-        public DateTime? Published { get; set; }
+        public DateTime? Published{get; set;}
 
         /// <summary>
         /// Gets or sets a book binding type.
         /// </summary>
-        public string BookBinding
-        {
-            get; set;
-        }
+        public string BookBinding{get; set;}
 
         /// <summary>
         /// Gets or sets an amount of money that a book costs.
@@ -137,10 +130,7 @@ namespace BookStoreItem
         public decimal Price
         {
             get => this.price;
-            set
-            {
-                this.price = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
-            }
+            set => this.price = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
         }
 
         /// <summary>
@@ -162,10 +152,7 @@ namespace BookStoreItem
         public int Amount
         {
             get => this.amount;
-            set
-            {
-                this.amount = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
-            }
+            set => this.amount = value >= 0 ? value : throw new ArgumentOutOfRangeException(nameof(value));
         }
 
         /// <summary>
@@ -186,7 +173,8 @@ namespace BookStoreItem
         /// <returns>A string that represents the current object.</returns>
         public new string ToString()
         {
-            string priceInFormat = this.price > 1000 ? string.Format(CultureInfo.InvariantCulture, "\"{0:N2} {1}\"", this.price, this.currency) : $"{this.price} {this.currency}";
+            const int formatBorder = 1000;
+            string priceInFormat = this.price > formatBorder ? string.Format(CultureInfo.InvariantCulture, "\"{0:N2} {1}\"", this.price, this.currency) : $"{this.price} {this.currency}";
             return !this.HasIsni ? string.Format(CultureInfo.InvariantCulture, $"{this.Title}, {this.AuthorName}, ISNI IS NOT SET, {priceInFormat}, {this.amount}") : string.Format(CultureInfo.InvariantCulture, $"{this.Title}, {this.AuthorName}, {this.Isni}, {priceInFormat}, {this.amount}");
         }
 
@@ -237,15 +225,7 @@ namespace BookStoreItem
             int j = 10;
             foreach (var term in isbn)
             {
-                if (char.IsDigit(term))
-                {
-                    checkSum += term * j;
-                    j--;
-                }
-                else
-                {
-                    checkSum += 10;
-                }
+                checkSum += char.IsDigit(term) ? (term - '0') * j-- : 10;
             }
 
             return checkSum % 11 == 0;
